@@ -2,16 +2,28 @@ import 'package:d_chart/d_chart.dart';
 import 'package:d_view/d_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:money_record/config/app.format.dart';
 import 'package:money_record/config/app_asset.dart';
 import 'package:money_record/config/app_color.dart';
 import 'package:money_record/config/session.dart';
 import 'package:money_record/presentation/controller/c_user.dart';
 import 'package:money_record/presentation/page/auth/login_page.dart';
+import '../controller/c_home.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   HomePage({super.key});
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
 
+class _HomePageState extends State<HomePage> {
   final cUser = Get.put(CUser());
+  final cHome = Get.put(CHome());
+  @override
+  void initState() {
+    cHome.getAnalysis(cUser.data.idUser!);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -211,19 +223,23 @@ class HomePage extends StatelessWidget {
   AspectRatio weekly() {
     return AspectRatio(
       aspectRatio: 16 / 9,
-      child: DChartBarO(
-        groupList: [
-          OrdinalGroup(
-            id: '1',
-            data: [
-              OrdinalData(domain: 'Mon', measure: 2),
-              OrdinalData(domain: 'Tue', measure: 6),
-              OrdinalData(domain: 'Wed', measure: 3),
-              OrdinalData(domain: 'Thu', measure: 7),
-            ],
-          ),
-        ],
-      ),
+      child: Obx(() {
+        return DChartBarO(
+          groupList: [
+            OrdinalGroup(
+                id: '1',
+                data: List.generate(
+                    7,
+                    (index) => OrdinalData(
+                        domain: cHome.weekText()[index],
+                        measure: cHome.week[index]))),
+          ],
+          fillColor: (group, ordinalData, index) {
+            
+            Colors.red;
+          },
+        );
+      }),
     );
   }
 
@@ -310,23 +326,27 @@ class HomePage extends StatelessWidget {
         children: [
           Padding(
             padding: EdgeInsets.fromLTRB(16, 20, 16, 4),
-            child: Text(
-              "Rp.500.000,00",
-              style: Theme.of(context).textTheme.headline4!.copyWith(
-                    fontWeight: FontWeight.bold,
-                    color: AppColor.secondary,
-                  ),
-            ),
+            child: Obx(() {
+              return Text(
+                Appformat.currency(cHome.today.toString()),
+                style: Theme.of(context).textTheme.headline4!.copyWith(
+                      fontWeight: FontWeight.bold,
+                      color: AppColor.secondary,
+                    ),
+              );
+            }),
           ),
           Padding(
             padding: const EdgeInsets.fromLTRB(16, 0, 16, 30),
-            child: Text(
-              "+20% dibanding kemarin",
-              style: TextStyle(
-                color: AppColor.bg,
-                fontSize: 16,
-              ),
-            ),
+            child: Obx(() {
+              return Text(
+                cHome.todayPercent,
+                style: TextStyle(
+                  color: AppColor.bg,
+                  fontSize: 16,
+                ),
+              );
+            }),
           ),
           Container(
             margin: EdgeInsets.fromLTRB(16, 0, 0, 16),

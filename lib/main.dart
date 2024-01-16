@@ -36,7 +36,7 @@ class MyApp extends StatelessWidget {
           if (snapshot.data != null && snapshot.data!.idUser != null) {
             return HomePage();
           }
-          return LoginPage();
+            return LoginPage();
         },
       ),
     );

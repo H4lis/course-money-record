@@ -15,7 +15,6 @@ class AppRequest {
       return null;
     }
   }
-
   static Future<Map?> post(String url, Object? body,
       {Map<String, String>? headers}) async {
     try {

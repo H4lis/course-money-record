@@ -8,7 +8,6 @@ class History {
     String details;
     String createdAt;
     String updatedAt;
-
     History({
         required this.idHistory,
         required this.idUser,
@@ -19,7 +18,6 @@ class History {
         required this.createdAt,
         required this.updatedAt,
     });
-
     factory History.fromJson(Map<String, dynamic> json) => History(
         idHistory: json["id_history"],
         idUser: json["id_user"],
@@ -30,7 +28,6 @@ class History {
         createdAt: json["created_at"],
         updatedAt: json["updated_at"],
     );
-
     Map<String, dynamic> toJson() => {
         "id_history": idHistory,
         "id_user": idUser,
