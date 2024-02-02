@@ -14,7 +14,7 @@ void main() {
     runApp(const MyApp());
   });
 }
-  
+
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -34,9 +34,9 @@ class MyApp extends StatelessWidget {
         future: Session.getUser(),
         builder: (context, AsyncSnapshot<User> snapshot) {
           if (snapshot.data != null && snapshot.data!.idUser != null) {
-            return HomePage();
+            return const HomePage();
           }
-            return LoginPage();
+          return const LoginPage();
         },
       ),
     );

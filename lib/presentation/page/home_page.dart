@@ -1,4 +1,3 @@
-
 import 'package:d_chart/d_chart.dart';
 import 'package:d_view/d_view.dart';
 import 'package:flutter/material.dart';
@@ -6,6 +5,7 @@ import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:money_record/presentation/page/history/add_hisory_page.dart';
 
 import '../../config/app.format.dart';
 import '../../config/app_asset.dart';
@@ -207,46 +207,53 @@ class _HomePageState extends State<HomePage> {
               ],
             ),
           ),
+
           ListTile(
             onTap: () {
-          
+              Get.to(()=>AddHistoryPage());
             },
             leading: const Icon(Icons.add),
             horizontalTitleGap: 0,
             title: const Text('Tambah Baru'),
             trailing: const Icon(Icons.navigate_next),
           ),
-          const Divider(height: 1),
+          const Divider(
+            height: 1,
+            color: AppColor.chart,
+          ),
           ListTile(
-            onTap: () {
-             
-            },
+            onTap: () {},
             leading: const Icon(Icons.south_west),
             horizontalTitleGap: 0,
             title: const Text('Pemasukan'),
             trailing: const Icon(Icons.navigate_next),
           ),
-          const Divider(height: 1),
+          const Divider(
+            height: 1,
+            color: AppColor.chart,
+          ),
           ListTile(
-            onTap: () {
-           
-            },
+            onTap: () {},
             leading: const Icon(Icons.north_east),
             horizontalTitleGap: 0,
             title: const Text('Pengeluaran'),
             trailing: const Icon(Icons.navigate_next),
           ),
-          const Divider(height: 1),
+          const Divider(
+            height: 1,
+            color: AppColor.chart,
+          ),
           ListTile(
-            onTap: () {
-          
-            },
+            onTap: () {},
             leading: const Icon(Icons.history),
             horizontalTitleGap: 0,
             title: const Text('Riwayat'),
             trailing: const Icon(Icons.navigate_next),
           ),
-          const Divider(height: 1),
+          const Divider(
+            height: 1,
+            color: AppColor.chart,
+          ),
         ],
       ),
     );
@@ -401,9 +408,7 @@ class _HomePageState extends State<HomePage> {
             }),
           ),
           GestureDetector(
-            onTap: () {
-             
-            },
+            onTap: () {},
             child: Container(
               margin: const EdgeInsets.fromLTRB(16, 0, 0, 16),
               padding: const EdgeInsets.symmetric(vertical: 6),
