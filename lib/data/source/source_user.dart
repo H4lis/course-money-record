@@ -31,9 +31,6 @@ class SourceUser {
       'created_at': DateTime.now().toIso8601String(),
       'updated_at': DateTime.now().toIso8601String(),
     });
-    print("=========   kopii    ==========");
-    print(responseBody);
-    print("=========   jjjjjjjjjjjjjjjjjjjjjjj    ==========");
 
     if (responseBody == null) return false;
 
@@ -43,7 +40,6 @@ class SourceUser {
     } else {
       print("===================");
       print("masukji");
-      print("===================");
       print(responseBody);
       print("===================");
       if (responseBody['message'] == 'email') {

@@ -1,14 +1,18 @@
 import 'package:d_input/d_input.dart';
 import 'package:d_view/d_view.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:money_record/config/app.format.dart';
 import 'package:money_record/config/app_color.dart';
+import 'package:money_record/presentation/controller/history/c_add_history.dart';
 
 class AddHistoryPage extends StatelessWidget {
   const AddHistoryPage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final cAddHistory = Get.put(CAddHistory());
     final contorollerName = TextEditingController();
     final contorollerPrice = TextEditingController();
     return Scaffold(
@@ -19,7 +23,9 @@ class AddHistoryPage extends StatelessWidget {
           Text("Tanggal", style: const TextStyle(fontWeight: FontWeight.bold)),
           Row(
             children: [
-              Text('2022-01-01'),
+              Obx(() {
+                return Text(cAddHistory.date);
+              }),
               DView.spaceWidth(),
               ElevatedButton.icon(
                 style: ElevatedButton.styleFrom(
@@ -30,7 +36,17 @@ class AddHistoryPage extends StatelessWidget {
                   "Pilih",
                   style: TextStyle(color: Colors.white),
                 ),
-                onPressed: () {},
+                onPressed: () async {
+                  DateTime? result = await showDatePicker(
+                      context: context,
+                      initialDate: DateTime.now(),
+                      firstDate: DateTime(2022, 01, 01),
+                      lastDate: DateTime(DateTime.now().year + 1));
+                  if (result != null) {
+                    cAddHistory
+                        .setDate(DateFormat('yyyy-MM-dd').format(result));
+                  }
+                },
                 icon: Icon(
                   Icons.event,
                   color: Colors.white,
@@ -49,7 +65,9 @@ class AddHistoryPage extends StatelessWidget {
                 value: e,
               );
             }).toList(),
-            onChanged: (value) {},
+            onChanged: (value) {
+              cAddHistory.settype(value);
+            },
             decoration: InputDecoration(
               border: OutlineInputBorder(),
               isDense: true,
@@ -70,7 +88,14 @@ class AddHistoryPage extends StatelessWidget {
           ),
           DView.spaceHeight(),
           ElevatedButton(
-            onPressed: () {},
+            onPressed: () {
+              cAddHistory.addItem({
+                'name': contorollerName.text,
+                'price': contorollerPrice.text,
+              });
+              contorollerName.clear();
+              contorollerPrice.clear();
+            },
             style: ElevatedButton.styleFrom(
                 backgroundColor: AppColor.primary,
                 shape: RoundedRectangleBorder(
@@ -101,17 +126,21 @@ class AddHistoryPage extends StatelessWidget {
                   width: 1,
                 ),
                 borderRadius: BorderRadius.circular(4)),
-            child: Wrap(
-              children: [
-                Chip(
-                  label: Text(
-                    'Sumber',
-                  ),
-                  deleteIcon: Icon(Icons.clear),
-                  onDeleted: () {},
-                )
-              ],
-            ),
+            child: GetBuilder<CAddHistory>(builder: (_) {
+              return Wrap(
+                runSpacing: 8,
+                spacing: 8,
+                children: List.generate(
+                    _.items.length,
+                    (index) => Chip(
+                          label: Text(
+                            cAddHistory.items[index]['name'],
+                          ),
+                          deleteIcon: Icon(Icons.clear),
+                          onDeleted: () {},
+                        )),
+              );
+            }),
           ),
           DView.spaceHeight(),
           Row(

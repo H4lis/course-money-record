@@ -1,13 +1,14 @@
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
 class CAddHistory extends GetxController {
-  final _date = ''.obs;
+  final _date = DateFormat('yyyy-MM-dd').format(DateTime.now()).obs;
   String get date => _date.value;
-  setDate(n) => _date.value;
+  setDate(n) => _date.value = n;
 
   final _type = 'Pemasukan'.obs;
   String get type => _type.value;
-  settype(n) => _date.value;
+  settype(n) => _date.value = n;
 
   final _items = [].obs;
   List get items => _items.value;
