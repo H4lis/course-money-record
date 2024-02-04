@@ -9,6 +9,8 @@ class AddHistoryPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final contorollerName = TextEditingController();
+    final contorollerPrice = TextEditingController();
     return Scaffold(
       appBar: DView.appBarLeft('Tambah baru'),
       body: ListView(
@@ -20,9 +22,19 @@ class AddHistoryPage extends StatelessWidget {
               Text('2022-01-01'),
               DView.spaceWidth(),
               ElevatedButton.icon(
-                label: Text("Pilih"),
+                style: ElevatedButton.styleFrom(
+                    backgroundColor: AppColor.primary,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(4))),
+                label: Text(
+                  "Pilih",
+                  style: TextStyle(color: Colors.white),
+                ),
                 onPressed: () {},
-                icon: Icon(Icons.event),
+                icon: Icon(
+                  Icons.event,
+                  color: Colors.white,
+                ),
               )
             ],
           ),
@@ -45,16 +57,28 @@ class AddHistoryPage extends StatelessWidget {
           ),
           DView.spaceHeight(16),
           DInput(
-            controller: TextEditingController(),
+            controller: contorollerName,
             hint: 'Jualan',
             title: 'Sumber/Objek Pengeluaran',
           ),
           DView.spaceHeight(16),
           DInput(
-            controller: TextEditingController(),
+            controller: contorollerPrice,
             hint: '30000',
             title: 'Harga',
             inputType: TextInputType.number,
+          ),
+          DView.spaceHeight(),
+          ElevatedButton(
+            onPressed: () {},
+            style: ElevatedButton.styleFrom(
+                backgroundColor: AppColor.primary,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8))),
+            child: Text(
+              "Tambah Ke Items",
+              style: TextStyle(color: Colors.white),
+            ),
           ),
           DView.spaceHeight(),
           Center(
