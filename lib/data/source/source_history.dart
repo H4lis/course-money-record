@@ -1,9 +1,9 @@
+import 'package:d_info/d_info.dart';
+import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 import '../../config/api.dart';
 import '../../config/app_request.dart';
-import '../../config/session.dart';
-import '../model/user.dart';
 
 class SourceHistory {
   static Future<Map> analysis(String idUser) async {
@@ -22,6 +22,39 @@ class SourceHistory {
           'outcome': 0.0,
         }
       };
+    return responseBody['success'];
+  }
+
+  static Future<bool> add(String idUser, String date, String type,
+      String details, String total, BuildContext context) async {
+    String url = '${Api.history}/add.php';
+    Map? responseBody = await AppRequest.post(
+      url,
+      {
+        'id_user': idUser,
+        'date': date,
+        'type': type,
+        'details': details,
+        'total': total,
+        'created_at': DateTime.now().toIso8601String(),
+        'updated_at': DateTime.now().toIso8601String(),
+      },
+    );
+
+    if (responseBody == null) return false;
+
+    if (responseBody['success']) {
+      DInfo.dialogSuccess(context, "Berhasil Tambah History");
+      DInfo.closeDialog(context);
+    } else {
+      if (responseBody['message'] == 'date') {
+        DInfo.dialogError(
+            context, "history dengan tanggal tersebut sudah perbah dibuat");
+      } else {
+        DInfo.dialogError(context, "Gagal Tambah History");
+      }
+      DInfo.closeDialog(context);
+    }
     return responseBody['success'];
   }
 }

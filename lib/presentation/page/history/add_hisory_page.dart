@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:d_input/d_input.dart';
 import 'package:d_view/d_view.dart';
 import 'package:flutter/material.dart';
@@ -5,16 +7,41 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:money_record/config/app.format.dart';
 import 'package:money_record/config/app_color.dart';
+import 'package:money_record/data/source/source_history.dart';
+import 'package:money_record/presentation/controller/c_user.dart';
 import 'package:money_record/presentation/controller/history/c_add_history.dart';
 
-class AddHistoryPage extends StatelessWidget {
-  const AddHistoryPage({super.key});
+class AddHistoryPage extends StatefulWidget {
+  AddHistoryPage({super.key});
+
+  @override
+  State<AddHistoryPage> createState() => _AddHistoryPageState();
+}
+
+class _AddHistoryPageState extends State<AddHistoryPage> {
+  final cAddHistory = Get.put(CAddHistory());
+  final cUser = Get.put(CUser());
+  final contorollerName = TextEditingController();
+  final contorollerPrice = TextEditingController();
+
+  addHistory() async {
+    print("99999999999999");
+    bool success = await SourceHistory.add(
+        cUser.data.idUser!,
+        cAddHistory.date,
+        cAddHistory.type,
+        jsonEncode(cAddHistory.items),
+        cAddHistory.total.toString(),
+        context);
+    if (success) {
+      Get.back(result: true);
+    }
+    print(success);
+    print("77777777777777777777");
+  }
 
   @override
   Widget build(BuildContext context) {
-    final cAddHistory = Get.put(CAddHistory());
-    final contorollerName = TextEditingController();
-    final contorollerPrice = TextEditingController();
     return Scaffold(
       appBar: DView.appBarLeft('Tambah baru'),
       body: ListView(
@@ -166,7 +193,10 @@ class AddHistoryPage extends StatelessWidget {
             color: AppColor.primary,
             borderRadius: BorderRadius.circular(8),
             child: InkWell(
-              onTap: () {},
+              onTap: () {
+                print("pencet ==============");
+                addHistory();
+              },
               borderRadius: BorderRadius.circular(8),
               child: Padding(
                 padding: const EdgeInsets.symmetric(vertical: 16),

@@ -8,7 +8,7 @@ class CAddHistory extends GetxController {
 
   final _type = 'Pemasukan'.obs;
   String get type => _type.value;
-  settype(n) => _date.value = n;
+  settype(n) => _type.value = n;
 
   final _items = [].obs;
   List get items => _items.value;
@@ -16,12 +16,14 @@ class CAddHistory extends GetxController {
     _items.value.add(n);
 
     count();
+    update();
   }
 
   deleteItem(i) {
     _items.value.removeAt(i);
 
     count();
+    update();
   }
 
   final _total = 0.0.obs;
