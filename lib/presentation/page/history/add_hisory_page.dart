@@ -137,7 +137,9 @@ class AddHistoryPage extends StatelessWidget {
                             cAddHistory.items[index]['name'],
                           ),
                           deleteIcon: Icon(Icons.clear),
-                          onDeleted: () {},
+                          onDeleted: () {
+                            _.deleteItem(index);
+                          },
                         )),
               );
             }),
@@ -145,14 +147,18 @@ class AddHistoryPage extends StatelessWidget {
           DView.spaceHeight(),
           Row(
             children: [
-              Text("Total:",
-                  style: const TextStyle(fontWeight: FontWeight.bold)),
+              Builder(builder: (context) {
+                return Text("Total:",
+                    style: const TextStyle(fontWeight: FontWeight.bold));
+              }),
               DView.spaceWidth(8),
-              Text(
-                Appformat.currency('300000'),
-                style: Theme.of(context).textTheme.headline5!.copyWith(
-                    fontWeight: FontWeight.bold, color: AppColor.primary),
-              ),
+              Obx(() {
+                return Text(
+                  Appformat.currency(cAddHistory.total.toString()),
+                  style: Theme.of(context).textTheme.headline5!.copyWith(
+                      fontWeight: FontWeight.bold, color: AppColor.primary),
+                );
+              }),
             ],
           ),
           DView.spaceHeight(30),
@@ -165,13 +171,14 @@ class AddHistoryPage extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.symmetric(vertical: 16),
                 child: Center(
-                    child: Text(
-                  'SUBMIT',
-                  style: Theme.of(context)
-                      .textTheme
-                      .headline6!
-                      .copyWith(color: Colors.white),
-                )),
+                  child: Text(
+                    'SUBMIT',
+                    style: Theme.of(context)
+                        .textTheme
+                        .headline6!
+                        .copyWith(color: Colors.white),
+                  ),
+                ),
               ),
             ),
           )
