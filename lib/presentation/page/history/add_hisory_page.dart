@@ -34,7 +34,9 @@ class _AddHistoryPageState extends State<AddHistoryPage> {
         cAddHistory.total.toString(),
         context);
     if (success) {
-      Get.back(result: true);
+      Future.delayed(Duration(milliseconds: 3000), () {
+        Get.back(result: true);
+      });
     }
     print(success);
     print("77777777777777777777");
