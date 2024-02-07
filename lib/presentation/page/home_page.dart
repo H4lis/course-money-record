@@ -6,6 +6,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:money_record/presentation/page/history/add_hisory_page.dart';
+import 'package:money_record/presentation/page/history/income_outcome_page.dart';
 
 import '../../config/app.format.dart';
 import '../../config/app_asset.dart';
@@ -207,10 +208,9 @@ class _HomePageState extends State<HomePage> {
               ],
             ),
           ),
-
           ListTile(
             onTap: () {
-              Get.to(()=>AddHistoryPage());
+              Get.to(() => AddHistoryPage());
             },
             leading: const Icon(Icons.add),
             horizontalTitleGap: 0,
@@ -222,7 +222,11 @@ class _HomePageState extends State<HomePage> {
             color: AppColor.chart,
           ),
           ListTile(
-            onTap: () {},
+            onTap: () {
+              Get.to(() => IncomeOutcomePage(
+                    type: "Pemasukan",
+                  ));
+            },
             leading: const Icon(Icons.south_west),
             horizontalTitleGap: 0,
             title: const Text('Pemasukan'),
@@ -233,7 +237,11 @@ class _HomePageState extends State<HomePage> {
             color: AppColor.chart,
           ),
           ListTile(
-            onTap: () {},
+            onTap: () {
+              Get.to(() => IncomeOutcomePage(
+                    type: "Pengeluaran",
+                  ));
+            },
             leading: const Icon(Icons.north_east),
             horizontalTitleGap: 0,
             title: const Text('Pengeluaran'),
