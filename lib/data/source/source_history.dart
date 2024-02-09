@@ -1,6 +1,7 @@
 import 'package:d_info/d_info.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:money_record/data/model/history.dart';
 
 import '../../config/api.dart';
 import '../../config/app_request.dart';
@@ -18,7 +19,7 @@ class SourceHistory {
         // Handle the case where responseBody is null or empty
         return {
           'today': 0.0,
-          'yesterday': 0.0,                                                              
+          'yesterday': 0.0,
           'week': [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
           'month': {
             'income': 0.0,
@@ -73,5 +74,21 @@ class SourceHistory {
       DInfo.closeDialog(context);
     }
     return responseBody['success'];
+  }
+
+  static Future<List<History>> incomeOutcome(String idUser, String type) async {
+    String url = '${Api.history}/income_outcome.php';
+    Map? responseBody = await AppRequest.post(url, {
+      'id_user': idUser,
+      'type': type,
+    });
+
+    if (responseBody == null) return [];
+
+    if (responseBody['success']) {
+      List list = responseBody['data'];
+      return list.map((e) => History.fromJson(e)).toList();
+    }
+    return [];
   }
 }
