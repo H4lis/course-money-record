@@ -1,7 +1,9 @@
 import 'package:d_view/d_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:money_record/config/app.format.dart';
 import 'package:money_record/config/app_color.dart';
+import 'package:money_record/data/model/history.dart';
 import 'package:money_record/presentation/controller/c_user.dart';
 import 'package:money_record/presentation/controller/history/c_income_outcome.dart';
 
@@ -62,51 +64,58 @@ class _IncomeOutcomePageState extends State<IncomeOutcomePage> {
           ],
         ),
       ),
-      body: RefreshIndicator(
-        onRefresh: () async {
-          await refresh();
-        },
-        child: ListView.builder(
-          itemCount: 10,
-          itemBuilder: (context, index) {
-            return Card(
-              elevation: 4,
-              margin: EdgeInsets.fromLTRB(
-                16,
-                index == 0 ? 16 : 8,
-                16,
-                index == 9 ? 16 : 8,
-              ),
-              child: Row(
-                children: [
-                  DView.spaceWidth(),
-                  const Text(
-                    "29 Juni 2024",
-                    style: TextStyle(
+      body: GetBuilder<CIncomeOutcome>(builder: (_) {
+        if (_.loading) return DView.loadingCircle();
+        if (_.list.isEmpty) return DView.empty("Kosong");
+        return RefreshIndicator(
+          onRefresh: () async {
+            await refresh();
+            print("=========");
+            print(_.list);
+          },
+          child: ListView.builder(
+            itemCount: _.list.length,
+            itemBuilder: (context, index) {
+              History history = _.list[index];
+              return Card(
+                elevation: 4,
+                margin: EdgeInsets.fromLTRB(
+                  16,
+                  index == 0 ? 16 : 8,
+                  16,
+                  index == 9 ? 16 : 8,
+                ),
+                child: Row(
+                  children: [
+                    DView.spaceWidth(),
+                    Text(
+                      Appformat.date(history.date!),
+                      style: TextStyle(
+                          color: AppColor.primary,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16),
+                    ),
+                    Expanded(
+                        child: Text(
+                      Appformat.currency(history.total!),
+                      style: TextStyle(
                         color: AppColor.primary,
                         fontWeight: FontWeight.bold,
-                        fontSize: 16),
-                  ),
-                  const Expanded(
-                      child: Text(
-                    "Rp 2000.000",
-                    style: TextStyle(
-                      color: AppColor.primary,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16,
-                    ),
-                    textAlign: TextAlign.end,
-                  )),
-                  PopupMenuButton(
-                    itemBuilder: (context) => [],
-                    onSelected: (value) {},
-                  )
-                ],
-              ),
-            );
-          },
-        ),
-      ),
+                        fontSize: 16,
+                      ),
+                      textAlign: TextAlign.end,
+                    )),
+                    PopupMenuButton(
+                      itemBuilder: (context) => [],
+                      onSelected: (value) {},
+                    )
+                  ],
+                ),
+              );
+            },
+          ),
+        );
+      }),
     );
   }
 }
