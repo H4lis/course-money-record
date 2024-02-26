@@ -7,7 +7,7 @@ import 'package:money_record/config/app_color.dart';
 import 'package:money_record/data/model/history.dart';
 import 'package:money_record/presentation/controller/c_user.dart';
 import 'package:money_record/presentation/controller/history/c_income_outcome.dart';
-
+import 'package:money_record/presentation/page/history/update_hisory_page.dart';
 
 class IncomeOutcomePage extends StatefulWidget {
   const IncomeOutcomePage({Key? key, required this.type}) : super(key: key);
@@ -26,28 +26,15 @@ class _IncomeOutcomePageState extends State<IncomeOutcomePage> {
     cInOut.getList(cUser.data.idUser, widget.type);
   }
 
-  // menuOption(String value, History history) async {
-  //   if (value == 'update') {
-  //     Get.to(() => UpdateHistoryPage(
-  //         date: history.date!, idHistory: history.idHistory!))?.then((value) {
-  //       if (value ?? false) {
-  //         refresh();
-  //       }
-  //     });
-  //   } else if (value == 'delete') {
-  //     bool yes = await DInfo.dialogConfirmation(
-  //       context,
-  //       'Hapus',
-  //       'Yakin untuk menghapus history ini?',
-  //       textNo: 'Batal',
-  //       textYes: 'Ya',
-  //     );
-  //     if (yes) {
-  //       bool success = await SourceHistory.delete(history.idHistory!);
-  //       if (success) refresh();
-  //     }
-  //   }
-  // }
+  menuOption(String value, History history) {
+    if (value == 'update') {
+      Get.to(() => UpdateHistoryPage(date: history.date!))?.then((value) {
+        if (value ?? false) {
+          refresh();
+        }
+      });
+    } else if (value == 'delete') {}
+  }
 
   @override
   void initState() {
@@ -169,7 +156,7 @@ class _IncomeOutcomePageState extends State<IncomeOutcomePage> {
                               value: 'delete', child: Text('Delete')),
                         ],
                         onSelected: (value) {
-                          
+                          menuOption(value, history);
                         },
                       ),
                     ],

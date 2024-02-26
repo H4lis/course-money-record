@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
-class CAddHistory extends GetxController {
+class CUpdateHistory extends GetxController {
   final _date = DateFormat('yyyy-MM-dd').format(DateTime.now()).obs;
   String get date => _date.value;
   setDate(n) => _date.value = n;
@@ -32,5 +32,8 @@ class CAddHistory extends GetxController {
         (previousValue, element) {
       return double.parse(previousValue.toString()) + double.parse(element);
     });
+    update();
   }
+
+  init() {}
 }
