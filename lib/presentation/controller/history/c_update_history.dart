@@ -1,5 +1,9 @@
+import 'dart:convert';
+
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:money_record/data/model/history.dart';
+import 'package:money_record/data/source/source_history.dart';
 
 class CUpdateHistory extends GetxController {
   final _date = DateFormat('yyyy-MM-dd').format(DateTime.now()).obs;
@@ -35,5 +39,13 @@ class CUpdateHistory extends GetxController {
     update();
   }
 
-  init() {}
+  init(idUser, date) async {
+    History? history = await SourceHistory.whareDate(idUser, date);
+    if (history != null) {
+      setDate(history.date);
+      settype(history.type);
+      _items.value = jsonDecode(history.details!);
+      count();
+    }
+  }
 }

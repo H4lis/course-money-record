@@ -10,19 +10,32 @@ import 'package:money_record/config/app_color.dart';
 import 'package:money_record/data/source/source_history.dart';
 import 'package:money_record/presentation/controller/c_user.dart';
 import 'package:money_record/presentation/controller/history/c_add_history.dart';
+import 'package:money_record/presentation/controller/history/c_update_history.dart';
 import 'package:money_record/presentation/page/history/add_hisory_page.dart';
 
-class UpdateHistoryPage extends StatelessWidget {
+class UpdateHistoryPage extends StatefulWidget {
   UpdateHistoryPage({super.key, required this.date});
   final String date;
 
-  final cAddHistory = Get.put(CAddHistory());
+  @override
+  State<UpdateHistoryPage> createState() => _UpdateHistoryPageState();
+}
+
+class _UpdateHistoryPageState extends State<UpdateHistoryPage> {
+  final cUpdateHistory = Get.put(CUpdateHistory());
 
   final cUser = Get.put(CUser());
 
   final contorollerName = TextEditingController();
 
   final contorollerPrice = TextEditingController();
+
+  @override
+  void initState() {
+    cUpdateHistory.init(cUser.data.idUser, widget.date);
+
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +48,7 @@ class UpdateHistoryPage extends StatelessWidget {
           Row(
             children: [
               Obx(() {
-                return Text(cAddHistory.date);
+                return Text(cUpdateHistory.date);
               }),
               DView.spaceWidth(),
               ElevatedButton.icon(
@@ -54,7 +67,7 @@ class UpdateHistoryPage extends StatelessWidget {
                       firstDate: DateTime(2022, 01, 01),
                       lastDate: DateTime(DateTime.now().year + 1));
                   if (result != null) {
-                    cAddHistory
+                    cUpdateHistory
                         .setDate(DateFormat('yyyy-MM-dd').format(result));
                   }
                 },
@@ -77,7 +90,7 @@ class UpdateHistoryPage extends StatelessWidget {
               );
             }).toList(),
             onChanged: (value) {
-              cAddHistory.settype(value);
+              cUpdateHistory.settype(value);
             },
             decoration: InputDecoration(
               border: OutlineInputBorder(),
@@ -100,7 +113,7 @@ class UpdateHistoryPage extends StatelessWidget {
           DView.spaceHeight(),
           ElevatedButton(
             onPressed: () {
-              cAddHistory.addItem({
+              cUpdateHistory.addItem({
                 'name': contorollerName.text,
                 'price': contorollerPrice.text,
               });
@@ -137,7 +150,7 @@ class UpdateHistoryPage extends StatelessWidget {
                   width: 1,
                 ),
                 borderRadius: BorderRadius.circular(4)),
-            child: GetBuilder<CAddHistory>(builder: (_) {
+            child: GetBuilder<CUpdateHistory>(builder: (_) {
               return Wrap(
                 runSpacing: 8,
                 spacing: 8,
@@ -145,7 +158,7 @@ class UpdateHistoryPage extends StatelessWidget {
                     _.items.length,
                     (index) => Chip(
                           label: Text(
-                            cAddHistory.items[index]['name'],
+                            cUpdateHistory.items[index]['name'],
                           ),
                           deleteIcon: Icon(Icons.clear),
                           onDeleted: () {
@@ -165,7 +178,7 @@ class UpdateHistoryPage extends StatelessWidget {
               DView.spaceWidth(8),
               Obx(() {
                 return Text(
-                  Appformat.currency(cAddHistory.total.toString()),
+                  Appformat.currency(cUpdateHistory.total.toString()),
                   style: Theme.of(context).textTheme.headline5!.copyWith(
                       fontWeight: FontWeight.bold, color: AppColor.primary),
                 );

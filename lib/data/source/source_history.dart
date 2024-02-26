@@ -97,7 +97,7 @@ class SourceHistory {
       return [];
     }
   }
-  
+
   static Future<List<History>> incomeOutcomeSearch(
       String idUser, String type, String date) async {
     String url = '${Api.history}/income_outcome_search.php';
@@ -115,5 +115,22 @@ class SourceHistory {
     }
 
     return [];
+  }
+
+  static Future<History?> whareDate(String idUser, String date) async {
+    String url = '${Api.history}/where_date.php';
+    Map? responseBody = await AppRequest.post(url, {
+      'id_user': idUser,
+      'date': date,
+    });
+
+    if (responseBody == null) return null;
+
+    if (responseBody['success']) {
+      var e = responseBody['data'];
+      return History.fromJson(e);
+    }
+
+    return null;
   }
 }
