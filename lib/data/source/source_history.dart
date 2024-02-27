@@ -164,4 +164,16 @@ class SourceHistory {
     }
     return responseBody['success'];
   }
+
+  static Future<bool> delete(String idHistory) async {
+    String url = '${Api.history}/delete.php';
+    Map? responseBody = await AppRequest.post(
+      url,
+      {
+        'id_history': idHistory,
+      },
+    );
+    if (responseBody == null) return false;
+    return responseBody['success'];
+  }
 }
