@@ -133,4 +133,35 @@ class SourceHistory {
 
     return null;
   }
+
+  static Future<bool> update(String idHistory, String idUser, String date,
+      String type, String details, String total, BuildContext context) async {
+    String url = '${Api.history}/Update.php';
+    Map? responseBody = await AppRequest.post(
+      url,
+      {
+        'id_history': idHistory,
+        'id_user': idUser,
+        'date': date,
+        'type': type,
+        'details': details,
+        'total': total,
+        'updated_at': DateTime.now().toIso8601String(),
+      },
+    );
+    if (responseBody == null) return false;
+
+    if (responseBody['success']) {
+      DInfo.dialogSuccess(context, "Berhasil Update History");
+      DInfo.closeDialog(context);
+    } else {
+      if (responseBody['message'] == 'date') {
+        DInfo.dialogError(context, "history dengan tanggal tersebut Bentrok");
+      } else {
+        DInfo.dialogError(context, "Gagal Tambah History");
+      }
+      DInfo.closeDialog(context);
+    }
+    return responseBody['success'];
+  }
 }

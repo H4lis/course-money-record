@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:d_input/d_input.dart';
 import 'package:d_view/d_view.dart';
 import 'package:flutter/material.dart';
@@ -9,13 +8,13 @@ import 'package:money_record/config/app.format.dart';
 import 'package:money_record/config/app_color.dart';
 import 'package:money_record/data/source/source_history.dart';
 import 'package:money_record/presentation/controller/c_user.dart';
-import 'package:money_record/presentation/controller/history/c_add_history.dart';
 import 'package:money_record/presentation/controller/history/c_update_history.dart';
-import 'package:money_record/presentation/page/history/add_hisory_page.dart';
+
 
 class UpdateHistoryPage extends StatefulWidget {
-  UpdateHistoryPage({super.key, required this.date});
+  UpdateHistoryPage({super.key, required this.date, required this.idHistory});
   final String date;
+  final String idHistory;
 
   @override
   State<UpdateHistoryPage> createState() => _UpdateHistoryPageState();
@@ -29,6 +28,19 @@ class _UpdateHistoryPageState extends State<UpdateHistoryPage> {
   final contorollerName = TextEditingController();
 
   final contorollerPrice = TextEditingController();
+
+  updateHistory() async {
+    bool success = await SourceHistory.update(
+        widget.idHistory,
+        cUser.data.idUser!,
+        cUpdateHistory.date,
+        cUpdateHistory.type,
+        jsonEncode(cUpdateHistory.items),
+        cUpdateHistory.total.toString(),
+        context);
+
+    
+  }
 
   @override
   void initState() {
@@ -192,7 +204,7 @@ class _UpdateHistoryPageState extends State<UpdateHistoryPage> {
             child: InkWell(
               onTap: () {
                 print("pencet ==============");
-                AddHistoryPage();
+                updateHistory();
               },
               borderRadius: BorderRadius.circular(8),
               child: Padding(

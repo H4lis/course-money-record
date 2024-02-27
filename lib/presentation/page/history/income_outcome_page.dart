@@ -28,7 +28,10 @@ class _IncomeOutcomePageState extends State<IncomeOutcomePage> {
 
   menuOption(String value, History history) {
     if (value == 'update') {
-      Get.to(() => UpdateHistoryPage(date: history.date!))?.then((value) {
+      Get.to(() => UpdateHistoryPage(
+            date: history.date!,
+            idHistory: history.idHistory!,
+          ))?.then((value) {
         if (value ?? false) {
           refresh();
         }
