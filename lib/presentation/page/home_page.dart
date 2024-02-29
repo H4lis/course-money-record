@@ -6,6 +6,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:money_record/presentation/page/history/add_hisory_page.dart';
+import 'package:money_record/presentation/page/history/history_page.dart';
 import 'package:money_record/presentation/page/history/income_outcome_page.dart';
 
 import '../../config/app.format.dart';
@@ -252,10 +253,12 @@ class _HomePageState extends State<HomePage> {
             color: AppColor.chart,
           ),
           ListTile(
-            onTap: () {},
+            onTap: () {
+              Get.to(() => HistoryPage());
+            },
             leading: const Icon(Icons.history),
             horizontalTitleGap: 0,
-            title: const Text('Riwayat'),
+            title: const Text(' Riwayat'),
             trailing: const Icon(Icons.navigate_next),
           ),
           const Divider(

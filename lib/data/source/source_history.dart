@@ -117,6 +117,49 @@ class SourceHistory {
     return [];
   }
 
+  static Future<List<History>> history(String idUser) async {
+    String url = '${Api.history}/history.php';
+    Map? responseBody = await AppRequest.post(url, {
+      'id_user': idUser,
+    });
+
+    if (responseBody == null) {
+      // Tangani jika respons null
+      return [];
+    }
+
+    try {
+      if (responseBody['success'] == true) {
+        List list = responseBody['data'];
+        return list.map((e) => History.fromJson(e)).toList();
+      } else {
+        // Tangani jika respons tidak berhasil
+        return [];
+      }
+    } catch (e) {
+      // Tangani kesalahan saat mengurai respons JSON
+      print('Error parsing JSON: $e');
+      return [];
+    }
+  }
+
+  static Future<List<History>> historySearch(String idUser, String date) async {
+    String url = '${Api.history}/history_search.php';
+    Map? responseBody = await AppRequest.post(url, {
+      'id_user': idUser,
+      'date': date,
+    });
+
+    if (responseBody == null) return [];
+
+    if (responseBody['success']) {
+      List list = responseBody['data'];
+      return list.map((e) => History.fromJson(e)).toList();
+    }
+
+    return [];
+  }
+
   static Future<History?> whareDate(String idUser, String date) async {
     String url = '${Api.history}/where_date.php';
     Map? responseBody = await AppRequest.post(url, {
