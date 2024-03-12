@@ -10,6 +10,7 @@ import 'package:money_record/data/source/source_history.dart';
 import 'package:money_record/presentation/controller/c_user.dart';
 import 'package:money_record/presentation/controller/history/c_history.dart';
 import 'package:money_record/presentation/controller/history/c_income_outcome.dart';
+import 'package:money_record/presentation/page/history/detail_history_page.dart';
 import 'package:money_record/presentation/page/history/update_hisory_page.dart';
 
 class HistoryPage extends StatefulWidget {
@@ -120,11 +121,11 @@ class _HistoryPageState extends State<HistoryPage> {
                 ),
                 child: InkWell(
                   onTap: () {
-                    // Get.to(() => DetailHistoryPage(
-                    //       date: history.date!,
-                    //       idUser: cUser.data.idUser!,
-                    //       type: history.type!,
-                    //     ));
+                    Get.to(() => DetailHistoryPage(
+                          date: history.date,
+                          idUser: cUser.data.idUser,
+                          Type: history.type,
+                        ));
                   },
                   borderRadius: BorderRadius.circular(4),
                   child: Row(
@@ -139,7 +140,6 @@ class _HistoryPageState extends State<HistoryPage> {
                               Icons.north_east,
                               color: Colors.red[300],
                             ),
-                    
                       Text(
                         Appformat.date(history.date!),
                         style: const TextStyle(

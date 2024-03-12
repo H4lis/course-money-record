@@ -9,6 +9,7 @@ import 'package:money_record/data/model/history.dart';
 import 'package:money_record/data/source/source_history.dart';
 import 'package:money_record/presentation/controller/c_user.dart';
 import 'package:money_record/presentation/controller/history/c_income_outcome.dart';
+import 'package:money_record/presentation/page/history/detail_history_page.dart';
 import 'package:money_record/presentation/page/history/update_hisory_page.dart';
 
 class IncomeOutcomePage extends StatefulWidget {
@@ -132,11 +133,12 @@ class _IncomeOutcomePageState extends State<IncomeOutcomePage> {
                 ),
                 child: InkWell(
                   onTap: () {
-                    // Get.to(() => DetailHistoryPage(
-                    //       date: history.date!,
-                    //       idUser: cUser.data.idUser!,
-                    //       type: history.type!,
-                    //     ));
+                    Get.to(() => DetailHistoryPage(
+                          date: history.date,
+                          idUser: cUser.data.idUser,
+                          Type: history.type,
+                        ));
+
                   },
                   borderRadius: BorderRadius.circular(4),
                   child: Row(
